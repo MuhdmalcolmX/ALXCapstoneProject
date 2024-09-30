@@ -1,84 +1,57 @@
-// src/components/QuizStart.tsx
-import React, { useEffect, useState } from 'react';
-import { fetchCategories } from '../services/api';
-
-interface Category {
-  id: number;
-  name: string;
-}
+import React, { useState } from "react";
 
 interface QuizStartProps {
-  onStartQuiz: (category: string, numQuestions: number, difficulty: string) => void;
+  onStartQuiz: (category: string, difficulty: string) => void;
 }
 
 const QuizStart: React.FC<QuizStartProps> = ({ onStartQuiz }) => {
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [numQuestions, setNumQuestions] = useState(10);
-  const [difficulty, setDifficulty] = useState('easy');
+  const [category, setCategory] = useState("");
+  const [difficulty, setDifficulty] = useState("");
 
-  useEffect(() => {
-    const loadCategories = async () => {
-      const categories = await fetchCategories();
-      setCategories(categories);
-    };
-    loadCategories();
-  }, []);
-
-  const startQuiz = () => {
-    if (selectedCategory) {
-      onStartQuiz(selectedCategory, numQuestions, difficulty);
-    }
+  const handleStart = () => {
+    onStartQuiz(category, difficulty);
   };
 
   return (
-    <div className="max-w-lg mx-auto mt-10 p-4 bg-white shadow-md rounded-md">
-      <h2 className="text-2xl font-bold mb-4">Start Quiz</h2>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-white">
+      <h1 className="text-4xl font-bold mb-8">Start Quiz</h1>
       
-      <label className="block mb-2">
-        Category:
+      {/* Category Selection */}
+      <div className="mb-4">
+        <label className="block text-lg mb-2">Select Category</label>
         <select
-          className="w-full p-2 border rounded"
-          value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
+          className="border border-gray-300 p-2"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
         >
-          <option value="">Select Category</option>
-          {categories.map((category) => (
-            <option key={category.id} value={category.id}>
-              {category.name}
-            </option>
-          ))}
+          <option value="">Choose a Category</option>
+          <option value="9">General Knowledge</option>
+          <option value="21">Sports</option>
+          <option value="23">History</option>
+          <option value="27">Animals</option>
+          <option value="17">Science & Nature</option>
+          {/* Add more categories as needed */}
         </select>
-      </label>
+      </div>
 
-      <label className="block mb-2">
-        Number of Questions:
-        <input
-          type="number"
-          className="w-full p-2 border rounded"
-          value={numQuestions}
-          min="5"
-          max="20"
-          onChange={(e) => setNumQuestions(parseInt(e.target.value))}
-        />
-      </label>
-
-      <label className="block mb-4">
-        Difficulty:
+      {/* Difficulty Selection */}
+      <div className="mb-4">
+        <label className="block text-lg mb-2">Select Difficulty</label>
         <select
-          className="w-full p-2 border rounded"
+          className="border border-gray-300 p-2"
           value={difficulty}
           onChange={(e) => setDifficulty(e.target.value)}
         >
+          <option value="">Choose Difficulty</option>
           <option value="easy">Easy</option>
           <option value="medium">Medium</option>
           <option value="hard">Hard</option>
         </select>
-      </label>
+      </div>
 
       <button
-        onClick={startQuiz}
-        className="w-full bg-blue-500 text-white p-2 rounded"
+        className="bg-blue-500 text-white p-2 rounded"
+        onClick={handleStart}
       >
         Start Quiz
       </button>

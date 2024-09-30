@@ -1,43 +1,37 @@
-// src/App.tsx
-import React, { useState, useEffect } from 'react';
-import QuizStart from './components/QuizStart';
-import QuestionCard from './components/QuestionCard';
-import { fetchQuestions } from './services/api';
+import React, { useState, useEffect } from "react";
+import QuizStart from "./components/QuizStart";
+import QuestionCard from "./components/QuestionCard";
 
-interface QuizSettings {
-  category: string;
-  numQuestions: number;
-  difficulty: string;
-}
-
-interface Question {
+// TypeScript interfaces for quiz data
+interface QuizQuestion {
   question: string;
   correct_answer: string;
   incorrect_answers: string[];
 }
 
 function App() {
-  const [quizSettings, setQuizSettings] = useState<QuizSettings | null>(null);
-  const [questions, setQuestions] = useState<Question[]>([]);
+  const [quizSettings, setQuizSettings] = useState<{ category: string; difficulty: string } | null>(null);
+  const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [score, setScore] = useState(0);
 
+  // Fetch quiz questions based on selected category and difficulty
   useEffect(() => {
     if (quizSettings) {
-      const loadQuestions = async () => {
-        const questions = await fetchQuestions(
-          quizSettings.category,
-          quizSettings.numQuestions,
-          quizSettings.difficulty
-        );
-        setQuestions(questions);
-      };
-      loadQuestions();
+      const { category, difficulty } = quizSettings;
+      fetch(
+        `https://opentdb.com/api.php?amount=10&category=${category}&difficulty=${difficulty}&type=multiple`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          setQuestions(data.results);
+        })
+        .catch((err) => console.error("Error fetching quiz data:", err));
     }
   }, [quizSettings]);
 
-  const handleStartQuiz = (category: string, numQuestions: number, difficulty: string) => {
-    setQuizSettings({ category, numQuestions, difficulty });
+  const handleStartQuiz = (category: string, difficulty: string) => {
+    setQuizSettings({ category, difficulty });
   };
 
   const handleAnswer = (selectedAnswer: string) => {
@@ -59,7 +53,9 @@ function App() {
           onAnswer={handleAnswer}
         />
       ) : (
-        <p className="text-center mt-10">Quiz completed! Your score is {score}/{questions.length}.</p>
+        <p className="text-center mt-10">
+          Quiz completed! Your score is {score}/{questions.length}.
+        </p>
       )}
     </div>
   );
