@@ -12,6 +12,19 @@ interface QuizHistoryProps {
   history: QuizHistoryItem[];
 }
 
+// Function to map category number to category name
+const getCategoryName = (category: string): string => {
+  const categoryMap: { [key: string]: string } = {
+    "9": "General Knowledge",
+    "21": "Sports",
+    "23": "History",
+    "27": "Animals",
+    "17": "Science & Nature",
+    // Add other categories as needed
+  };
+  return categoryMap[category] || "Unknown Category"; // Default to "Unknown Category" if not found
+};
+
 const QuizHistory: React.FC<QuizHistoryProps> = ({ history }) => {
   return (
     <div className="w-full">
@@ -22,7 +35,7 @@ const QuizHistory: React.FC<QuizHistoryProps> = ({ history }) => {
             <li key={index} className="w-full bg-gray-100 p-4 rounded-lg shadow-sm flex justify-between">
               <div className="flex flex-col">
                 <p className="text-sm font-medium text-gray-700">
-                  <span className="font-semibold">Category:</span> {item.category}
+                  <span className="font-semibold">Category:</span> {getCategoryName(item.category)}
                 </p>
                 <p className="text-sm font-medium text-gray-700">
                   <span className="font-semibold">Difficulty:</span> {item.difficulty}
