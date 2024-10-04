@@ -15,12 +15,22 @@ interface QuizHistoryProps {
 // Function to map category number to category name
 const getCategoryName = (category: string): string => {
   const categoryMap: { [key: string]: string } = {
+    // "9": "General Knowledge",
+    // "21": "Sports",
+    // "23": "History",
+    // "27": "Animals",
+    // "17": "Science & Nature",
+    // Add other categories as needed
     "9": "General Knowledge",
     "21": "Sports",
     "23": "History",
     "27": "Animals",
     "17": "Science & Nature",
-    // Add other categories as needed
+    "22": "Geography",
+    "18": "Science: Computers",
+    "28": "Vehicles",
+    "10": "Books",
+    "24": "Politics",
   };
   return categoryMap[category] || "Unknown Category"; // Default to "Unknown Category" if not found
 };

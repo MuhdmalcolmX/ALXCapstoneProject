@@ -17,6 +17,26 @@ const QuizStart: React.FC<QuizStartProps> = ({ onStartQuiz, quizHistory, onClear
   const [category, setCategory] = useState("");
   const [difficulty, setDifficulty] = useState("");
   const [showHistory, setShowHistory] = useState(false); // State for toggling quiz history popup
+  const [searchQuery, setSearchQuery] = useState(""); // Search query state
+
+  // List of quiz categories
+  const categories = [
+    { id: "9", name: "General Knowledge" },
+    { id: "21", name: "Sports" },
+    { id: "23", name: "History" },
+    { id: "27", name: "Animals" },
+    { id: "17", name: "Science & Nature" },
+    { id: "22", name: "Geography" },
+    { id: "18", name: "Science: Computers" },
+    { id: "28", name: "Vehicles" },
+    { id: "10", name: "Books" },
+    { id: "24", name: "Politics" }
+  ];
+
+  // Filter the categories based on search query
+  const filteredCategories = categories.filter((cat) =>
+    cat.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const handleStart = () => {
     if (category && difficulty) {
@@ -33,19 +53,57 @@ const QuizStart: React.FC<QuizStartProps> = ({ onStartQuiz, quizHistory, onClear
 
         {/* Category Selection */}
         <div className="mb-4">
-          <label className="block text-lg mb-2 text-black">Select Category</label>
-          <select
-            className="border border-gray-300 p-3 w-full rounded-lg"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
+          <label className="block text-lg mb-2 text-black">Search/Select Category</label>
+          {/* Search Bar */}
+          <div className="mb-4">
+            <input
+              type="text"
+              placeholder="Search for a quiz topic..."
+              className="border border-gray-300 p-3 w-full rounded-lg"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+          
+          {/* Category List with Scroll */}
+          <div
+            className="flex flex-col space-y-2 text-black overflow-y-auto rounded-lg"
+            style={{ maxHeight: "150px", scrollBehavior: "smooth" }}
           >
-            <option value="">Choose a Category</option>
-            <option value="9">General Knowledge</option>
-            <option value="21">Sports</option>
-            <option value="23">History</option>
-            <option value="27">Animals</option>
-            <option value="17">Science & Nature</option>
-          </select>
+            {filteredCategories.length > 0 ? (
+              filteredCategories.map((cat) => (
+                <button
+                  key={cat.id}
+                  className={`border border-gray-300 p-2 rounded-lg text-left ${
+                    category === cat.id ? "bg-blue-300" : ""
+                  } hover:bg-blue-400 hover:text-white transition-all duration-300`}
+                  onClick={() => setCategory(cat.id)}
+                >
+                  {cat.name}
+                </button>
+              ))
+            ) : (
+              <p className="text-gray-500">No categories match your search</p>
+            )}
+          </div>
+
+          {/* Scrollbar Customization */}
+          <style jsx>{`
+            ::-webkit-scrollbar {
+              width: 8px;
+            }
+            ::-webkit-scrollbar-track {
+              background: #f1f1f1;
+              border-radius: 10px;
+            }
+            ::-webkit-scrollbar-thumb {
+              background: #888;
+              border-radius: 10px;
+            }
+            ::-webkit-scrollbar-thumb:hover {
+              background: #555;
+            }
+          `}</style>
         </div>
 
         {/* Difficulty Selection */}
