@@ -51,14 +51,17 @@ function App() {
     }
   }, [quizSettings]);
 
+  // Start the timer only after the quiz starts and when questions are loaded
   useEffect(() => {
-    if (timer > 0 && !isQuizFinished) {
-      const timerId = setInterval(() => setTimer((prev) => prev - 1), 1000);
-      return () => clearInterval(timerId);
-    } else if (timer === 0) {
-      handleNextQuestion(); // Automatically go to the next question when time is up
+    if (hasStarted && questions.length > 0 && !isQuizFinished) {
+      if (timer > 0) {
+        const timerId = setInterval(() => setTimer((prev) => prev - 1), 1000);
+        return () => clearInterval(timerId);
+      } else if (timer === 0) {
+        handleNextQuestion(); // Automatically go to the next question when time is up
+      }
     }
-  }, [timer, isQuizFinished]);
+  }, [timer, hasStarted, questions.length, isQuizFinished]);
 
   const handleStartQuiz = (category: string, difficulty: string) => {
     setQuizSettings({ category, difficulty });
