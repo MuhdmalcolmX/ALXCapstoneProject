@@ -25,8 +25,9 @@ function App() {
   const [score, setScore] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [isAnswered, setIsAnswered] = useState(false);
-  const [isQuizFinished, setIsQuizFinished] = useState(false); // New state to control when quiz is finished
+  const [isQuizFinished, setIsQuizFinished] = useState(false);
   const [quizHistory, setQuizHistory] = useState<QuizHistoryItem[]>([]);
+  const [showHistory, setShowHistory] = useState(false); // State for toggling quiz history popup
 
   // Load quiz history from local storage when the app loads
   useEffect(() => {
@@ -49,11 +50,11 @@ function App() {
 
   const handleStartQuiz = (category: string, difficulty: string) => {
     setQuizSettings({ category, difficulty });
-    setCurrentQuestionIndex(0); // Start quiz from the first question
+    setCurrentQuestionIndex(0);
     setScore(0);
     setSelectedAnswer(null);
     setIsAnswered(false);
-    setIsQuizFinished(false); // Reset quiz finished state
+    setIsQuizFinished(false);
   };
 
   const handleAnswer = (selectedAnswer: string) => {
@@ -66,20 +67,16 @@ function App() {
   };
 
   const handleNextQuestion = () => {
-    // If all questions are answered, trigger the end of the quiz
     if (currentQuestionIndex + 1 >= questions.length) {
-      setIsQuizFinished(true); // Mark quiz as finished
+      setIsQuizFinished(true);
       saveQuizResult();
       return;
     }
-
-    // Move to the next question
     setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
     setSelectedAnswer(null);
     setIsAnswered(false);
   };
 
-  // Save quiz result in local storage and show the final scorecard
   const saveQuizResult = () => {
     const newHistoryItem: QuizHistoryItem = {
       category: quizSettings!.category,
@@ -94,12 +91,46 @@ function App() {
     localStorage.setItem("quizHistory", JSON.stringify(updatedHistory));
   };
 
+  // Handle clearing the quiz history
+  const handleClearHistory = () => {
+    localStorage.removeItem("quizHistory");
+    setQuizHistory([]);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-200 via-purple-300 to-indigo-400 flex flex-col items-center justify-center">
       {!quizSettings && !isQuizFinished ? (
         <>
           <QuizStart onStartQuiz={handleStartQuiz} />
-          {quizHistory.length > 0 && <QuizHistory history={quizHistory} />}
+          {/* Button to toggle history popup */}
+          <button
+            onClick={() => setShowHistory(!showHistory)}
+            className="mt-4 bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700"
+          >
+            {showHistory ? "Hide History" : "Show History"}
+          </button>
+          {/* History Popup */}
+          {showHistory && (
+            <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
+              <div className="relative bg-white p-6 rounded-lg shadow-lg w-11/12 sm:w-8/12 md:w-6/12 lg:w-4/12 max-h-full overflow-y-auto">
+                {/* Close Button */}
+                <button
+                  onClick={() => setShowHistory(false)}
+                  className="absolute top-2 right-2 bg-gray-500 text-white py-1 px-2 rounded-full hover:bg-gray-600"
+                >
+                  X
+                </button>
+                <QuizHistory history={quizHistory} />
+                {/* Clear History Button */}
+                <button
+                  onClick={handleClearHistory}
+                  className="mt-4 bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 w-full"
+                >
+                  Clear History
+                </button>
+              </div>
+            </div>
+          )}
         </>
       ) : isQuizFinished ? (
         <div className="bg-white p-8 rounded-lg shadow-lg text-center">
@@ -116,25 +147,16 @@ function App() {
         </div>
       ) : (
         questions.length > 0 && currentQuestionIndex < questions.length && (
-          <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 sm:w-8/12 md:w-6/12 lg:w-4/12">
+          <div className="bg-white p-6 rounded-lg shadow-lg">
             <QuestionCard
               question={questions[currentQuestionIndex].question}
-              options={[...questions[currentQuestionIndex].incorrect_answers, questions[currentQuestionIndex].correct_answer].sort(
-                () => Math.random() - 0.5
-              )}
+              options={[...questions[currentQuestionIndex].incorrect_answers, questions[currentQuestionIndex].correct_answer].sort()}
               correctAnswer={questions[currentQuestionIndex].correct_answer}
               onAnswer={handleAnswer}
               selectedAnswer={selectedAnswer}
               isAnswered={isAnswered}
+              onNextQuestion={handleNextQuestion}
             />
-            {isAnswered && (
-              <button
-                className="mt-4 bg-indigo-600 text-white py-2 px-4 rounded-lg w-full hover:bg-indigo-700 transition-colors"
-                onClick={handleNextQuestion}
-              >
-                {currentQuestionIndex + 1 === questions.length ? "Finish Quiz" : "Next Question"}
-              </button>
-            )}
           </div>
         )
       )}

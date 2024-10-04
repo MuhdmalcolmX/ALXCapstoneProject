@@ -7,9 +7,18 @@ interface QuestionCardProps {
   selectedAnswer: string | null;
   isAnswered: boolean;
   onAnswer: (answer: string) => void;
+  onNextQuestion: () => void; // Add the onNextQuestion function as a prop
 }
 
-const QuestionCard: React.FC<QuestionCardProps> = ({ question, options, correctAnswer, selectedAnswer, isAnswered, onAnswer }) => {
+const QuestionCard: React.FC<QuestionCardProps> = ({
+  question,
+  options,
+  correctAnswer,
+  selectedAnswer,
+  isAnswered,
+  onAnswer,
+  onNextQuestion, // Destructure the onNextQuestion prop
+}) => {
   const handleAnswerClick = (answer: string) => {
     if (!isAnswered) {
       onAnswer(answer);
@@ -40,8 +49,18 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ question, options, correctA
           {selectedAnswer === correctAnswer ? (
             <p className="text-green-600 font-semibold">Correct! 🎉</p>
           ) : (
-            <p className="text-red-600 font-semibold">Incorrect! The correct answer is {correctAnswer}.</p>
+            <p className="text-red-600 font-semibold">
+              Incorrect! The correct answer is {correctAnswer}.
+            </p>
           )}
+
+          {/* Next Question Button */}
+          <button
+            onClick={onNextQuestion}
+            className="mt-4 bg-blue-500 text-white py-2 px-6 rounded-lg hover:bg-blue-600 transition-colors"
+          >
+            Next Question
+          </button>
         </div>
       )}
     </div>

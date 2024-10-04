@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface QuizHistoryItem {
   category: string;
@@ -14,20 +14,29 @@ interface QuizHistoryProps {
 
 const QuizHistory: React.FC<QuizHistoryProps> = ({ history }) => {
   return (
-    <div className="mt-6 bg-white p-6 rounded-lg shadow-lg w-11/12 sm:w-8/12 md:w-6/12 lg:w-4/12">
-      <h2 className="text-xl font-bold mb-4 text-gray-800">Quiz History</h2>
+    <div className="w-full">
+      <h2 className="text-lg font-semibold text-center mb-4">Quiz History</h2>
       {history.length > 0 ? (
-        <ul>
+        <ul className="space-y-4">
           {history.map((item, index) => (
-            <li key={index} className="mb-3 p-2 bg-gray-100 rounded-lg">
-              <p className="text-gray-600">
-                <strong>{item.category}</strong> - {item.difficulty} - Score: {item.score}/{item.totalQuestions} - Date: {item.date}
-              </p>
+            <li key={index} className="w-full bg-gray-100 p-4 rounded-lg shadow-sm flex justify-between">
+              <div className="flex flex-col">
+                <p className="text-sm font-medium text-gray-700">
+                  <span className="font-semibold">Category:</span> {item.category}
+                </p>
+                <p className="text-sm font-medium text-gray-700">
+                  <span className="font-semibold">Difficulty:</span> {item.difficulty}
+                </p>
+                <p className="text-sm font-medium text-gray-700">
+                  <span className="font-semibold">Score:</span> {item.score}/{item.totalQuestions}
+                </p>
+              </div>
+              <div className="text-sm text-gray-500">{item.date}</div>
             </li>
           ))}
         </ul>
       ) : (
-        <p className="text-gray-600">No quiz history available.</p>
+        <p className="text-center text-gray-600">No quiz history available.</p>
       )}
     </div>
   );
