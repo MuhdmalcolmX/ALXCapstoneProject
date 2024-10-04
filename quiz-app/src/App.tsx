@@ -132,14 +132,11 @@ function App() {
         <Home onStart={() => setHasStarted(true)} /> // Render the Home component if the quiz hasn't started
       ) : !quizSettings && !isQuizFinished ? (
         <>
-          <QuizStart onStartQuiz={handleStartQuiz} />
-          {/* Button to toggle history popup */}
-          <button
-            onClick={() => setShowHistory(!showHistory)}
-            className="mt-4 bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700"
-          >
-            {showHistory ? "Hide History" : "Show History"}
-          </button>
+          <QuizStart
+            onStartQuiz={handleStartQuiz}
+            quizHistory={quizHistory} // Pass quiz history from state
+            onClearHistory={handleClearHistory} // Pass clear history function
+            />
           {/* History Popup */}
           {showHistory && (
             <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">

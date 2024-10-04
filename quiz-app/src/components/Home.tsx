@@ -6,7 +6,7 @@ interface HomeProps {
 
 const Home: React.FC<HomeProps> = ({ onStart }) => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-200 via-purple-300 to-indigo-400 flex flex-col items-center justify-center text-center">
+    <div className="min-h-screen via-purple-300 to-indigo-400 flex flex-col items-center justify-center text-center">
       <h1 className="text-4xl font-bold text-white mb-4">Welcome to the Quiz App!</h1>
       <p className="text-xl text-white mb-8">
         Test your knowledge across various topics and track your performance over time.
