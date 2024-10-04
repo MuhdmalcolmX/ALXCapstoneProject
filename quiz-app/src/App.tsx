@@ -28,8 +28,7 @@ function App() {
   const [isQuizFinished, setIsQuizFinished] = useState(false);
   const [quizHistory, setQuizHistory] = useState<QuizHistoryItem[]>([]);
   const [showHistory, setShowHistory] = useState(false); // State for toggling quiz history popup
-  const [timer, setTimer] = useState<number>(10); // Countdown timer starting at 10 seconds
-  const [isTimerActive, setIsTimerActive] = useState<boolean>(false); // To track if timer is active
+  const [timer, setTimer] = useState(10); // Timer for each question
 
   // Load quiz history from local storage when the app loads
   useEffect(() => {
@@ -45,31 +44,19 @@ function App() {
       const { category, difficulty } = quizSettings;
       fetch(`https://opentdb.com/api.php?amount=10&category=${category}&difficulty=${difficulty}&type=multiple`)
         .then((res) => res.json())
-        .then((data) => {
-          setQuestions(data.results);
-          setIsTimerActive(true); // Activate timer when questions are loaded
-          setTimer(10); // Reset timer for the new set of questions
-        })
+        .then((data) => setQuestions(data.results))
         .catch((err) => console.error("Error fetching quiz data:", err));
     }
   }, [quizSettings]);
 
-  // Effect to handle timer countdown
   useEffect(() => {
-    let timerId: NodeJS.Timeout;
-
-    if (isTimerActive && timer > 0) {
-      timerId = setInterval(() => {
-        setTimer((prevTimer) => prevTimer - 1);
-      }, 1000);
+    if (timer > 0 && !isQuizFinished) {
+      const timerId = setInterval(() => setTimer((prev) => prev - 1), 1000);
+      return () => clearInterval(timerId);
     } else if (timer === 0) {
-      handleNextQuestion(); // Automatically move to the next question if time runs out
+      handleNextQuestion(); // Automatically go to the next question when time is up
     }
-
-    return () => {
-      clearInterval(timerId); // Cleanup the interval on unmount
-    };
-  }, [isTimerActive, timer]);
+  }, [timer, isQuizFinished]);
 
   const handleStartQuiz = (category: string, difficulty: string) => {
     setQuizSettings({ category, difficulty });
@@ -78,8 +65,7 @@ function App() {
     setSelectedAnswer(null);
     setIsAnswered(false);
     setIsQuizFinished(false);
-    setTimer(10); // Reset timer for the new quiz
-    setIsTimerActive(true); // Activate timer
+    setTimer(10); // Reset timer for each new quiz
   };
 
   const handleAnswer = (selectedAnswer: string) => {
@@ -115,6 +101,18 @@ function App() {
     const updatedHistory = [...quizHistory, newHistoryItem];
     setQuizHistory(updatedHistory);
     localStorage.setItem("quizHistory", JSON.stringify(updatedHistory));
+  };
+
+  // Calculate average score and best score
+  const calculateAverageScore = (): number => {
+    if (quizHistory.length === 0) return 0;
+    const totalScore = quizHistory.reduce((sum, item) => sum + item.score, 0);
+    return totalScore / quizHistory.length;
+  };
+
+  const getBestScore = (): number => {
+    if (quizHistory.length === 0) return 0;
+    return Math.max(...quizHistory.map(item => item.score));
   };
 
   // Handle clearing the quiz history
@@ -164,6 +162,12 @@ function App() {
           <p className="text-lg text-gray-600">
             Your score is <span className="font-bold text-indigo-600">{score}</span>/{questions.length}.
           </p>
+          <p className="text-lg text-gray-600">
+            Average Score: <span className="font-bold text-indigo-600">{calculateAverageScore()}</span>
+          </p>
+          <p className="text-lg text-gray-600">
+            Best Score: <span className="font-bold text-indigo-600">{getBestScore()}</span>
+          </p>
           <button
             className="mt-6 bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition-colors"
             onClick={() => window.location.reload()}
@@ -174,6 +178,9 @@ function App() {
       ) : (
         questions.length > 0 && currentQuestionIndex < questions.length && (
           <div className="bg-white p-6 rounded-lg shadow-lg">
+            <div className="text-center mb-4">
+              <p className="text-lg font-meduim text-red-600">Time Remaining: {timer} seconds</p>
+            </div>
             <QuestionCard
               question={questions[currentQuestionIndex].question}
               options={[...questions[currentQuestionIndex].incorrect_answers, questions[currentQuestionIndex].correct_answer].sort()}
@@ -183,9 +190,6 @@ function App() {
               isAnswered={isAnswered}
               onNextQuestion={handleNextQuestion}
             />
-            <div className="text-center mt-4">
-              <p className="text-lg font-normal text-red-600">Time remaining: {timer} seconds</p>
-            </div>
           </div>
         )
       )}
