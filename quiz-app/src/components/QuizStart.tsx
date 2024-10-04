@@ -66,10 +66,7 @@ const QuizStart: React.FC<QuizStartProps> = ({ onStartQuiz, quizHistory, onClear
           </div>
           
           {/* Category List with Scroll */}
-          <div
-            className="flex flex-col space-y-2 text-black overflow-y-auto rounded-lg"
-            style={{ maxHeight: "150px", scrollBehavior: "smooth" }}
-          >
+          <div className="flex flex-col space-y-2 text-black overflow-y-auto rounded-lg" style={{ maxHeight: "150px", scrollBehavior: "smooth" }}>
             {filteredCategories.length > 0 ? (
               filteredCategories.map((cat) => (
                 <button

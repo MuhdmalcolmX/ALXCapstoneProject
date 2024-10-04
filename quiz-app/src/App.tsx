@@ -46,7 +46,10 @@ function App() {
       const { category, difficulty } = quizSettings;
       fetch(`https://opentdb.com/api.php?amount=10&category=${category}&difficulty=${difficulty}&type=multiple`)
         .then((res) => res.json())
-        .then((data) => setQuestions(data.results))
+        .then((data) => {
+          console.log(data); // Log the data to check what is returned
+          setQuestions(data.results);
+    })
         .catch((err) => console.error("Error fetching quiz data:", err));
     }
   }, [quizSettings]);
