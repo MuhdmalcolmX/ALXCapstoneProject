@@ -1,43 +1,49 @@
-import React from "react";
+import React from 'react';
 
 interface QuestionCardProps {
   question: string;
   options: string[];
   correctAnswer: string;
-  onAnswer: (selectedAnswer: string) => void;
-  selectedAnswer: string | null; // New prop for the selected answer
-  isAnswered: boolean; // New prop for tracking if the question is answered
+  selectedAnswer: string | null;
+  isAnswered: boolean;
+  onAnswer: (answer: string) => void;
 }
 
-const QuestionCard: React.FC<QuestionCardProps> = ({
-  question,
-  options,
-  correctAnswer,
-  onAnswer,
-  selectedAnswer,
-  isAnswered
-}) => {
+const QuestionCard: React.FC<QuestionCardProps> = ({ question, options, correctAnswer, selectedAnswer, isAnswered, onAnswer }) => {
+  const handleAnswerClick = (answer: string) => {
+    if (!isAnswered) {
+      onAnswer(answer);
+    }
+  };
+
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md text-black">
-      <h2 className="text-2xl font-bold mb-4">{question}</h2>
-      <div className="space-y-4">
+    <div>
+      <h2 className="text-xl font-bold mb-4 text-black" dangerouslySetInnerHTML={{ __html: question }} />
+
+      <div className="space-y-3">
         {options.map((option, index) => (
           <button
             key={index}
-            className={`w-full p-2 border border-gray-300 rounded-lg hover:bg-blue-500 hover:text-white transition-colors ${
-              isAnswered && option === correctAnswer
-                ? "bg-green-500 text-white"
-                : isAnswered && option === selectedAnswer
-                ? "bg-red-500 text-white"
-                : ""
-            }`}
-            onClick={() => !isAnswered && onAnswer(option)} // Only allow answer selection if not already answered
-            disabled={isAnswered} // Disable buttons once the answer is selected
-          >
-            {option}
-          </button>
+            onClick={() => handleAnswerClick(option)}
+            disabled={isAnswered} // Disable buttons after answering
+            className={`w-full py-2 px-4 rounded-lg text-left
+              ${isAnswered && option === correctAnswer ? 'bg-green-500 text-white' : ''} 
+              ${isAnswered && option === selectedAnswer && option !== correctAnswer ? 'bg-red-500 text-white' : ''}
+              ${!isAnswered ? 'bg-indigo-500 text-white hover:bg-indigo-600' : 'bg-gray-300 cursor-not-allowed'}`}
+            dangerouslySetInnerHTML={{ __html: option }}
+          />
         ))}
       </div>
+
+      {isAnswered && (
+        <div className="mt-4 text-center">
+          {selectedAnswer === correctAnswer ? (
+            <p className="text-green-600 font-semibold">Correct! 🎉</p>
+          ) : (
+            <p className="text-red-600 font-semibold">Incorrect! The correct answer is {correctAnswer}.</p>
+          )}
+        </div>
+      )}
     </div>
   );
 };
