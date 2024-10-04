@@ -59,11 +59,11 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex justify-center items-center">
+    <div className="min-h-screen bg-gradient-to-br from-blue-200 via-purple-300 to-indigo-400 flex flex-col justify-center items-center">
       {!quizSettings ? (
         <QuizStart onStartQuiz={handleStartQuiz} />
       ) : questions.length > 0 && currentQuestionIndex < questions.length ? (
-        <div>
+        <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 sm:w-8/12 md:w-6/12 lg:w-4/12">
           <QuestionCard
             question={questions[currentQuestionIndex].question}
             options={[...questions[currentQuestionIndex].incorrect_answers, questions[currentQuestionIndex].correct_answer].sort(() => Math.random() - 0.5)} // Shuffle the options
@@ -74,7 +74,7 @@ function App() {
           />
           {isAnswered && (
             <button
-              className="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+              className="mt-4 bg-indigo-600 text-white py-2 px-4 rounded-lg w-full hover:bg-indigo-700 transition-colors"
               onClick={handleNextQuestion}
             >
               Next Question
@@ -82,9 +82,18 @@ function App() {
           )}
         </div>
       ) : (
-        <p className="text-center mt-10 text-black">
-          Quiz completed! Your score is {score}/{questions.length}.
-        </p>
+        <div className="bg-white p-8 rounded-lg shadow-lg text-center">
+          <h2 className="text-2xl font-bold mb-4 text-gray-800">Quiz Completed!</h2>
+          <p className="text-lg text-gray-600">
+            Your score is <span className="font-bold text-indigo-600">{score}</span>/{questions.length}.
+          </p>
+          <button
+            className="mt-6 bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition-colors"
+            onClick={() => window.location.reload()}
+          >
+            Retake Quiz
+          </button>
+        </div>
       )}
     </div>
   );
