@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import QuizStart from "./components/QuizStart";
 import QuestionCard from "./components/QuestionCard";
 import QuizHistory from "./components/QuizHistory";
+import Home from "./components/Home"; // Import the Home component
 
 // TypeScript interfaces for quiz data and history
 interface QuizQuestion {
@@ -29,6 +30,7 @@ function App() {
   const [quizHistory, setQuizHistory] = useState<QuizHistoryItem[]>([]);
   const [showHistory, setShowHistory] = useState(false); // State for toggling quiz history popup
   const [timer, setTimer] = useState(10); // Timer for each question
+  const [hasStarted, setHasStarted] = useState(false); // Track whether the quiz has started
 
   // Load quiz history from local storage when the app loads
   useEffect(() => {
@@ -123,7 +125,9 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-200 via-purple-300 to-indigo-400 flex flex-col items-center justify-center">
-      {!quizSettings && !isQuizFinished ? (
+      {!hasStarted ? (
+        <Home onStart={() => setHasStarted(true)} /> // Render the Home component if the quiz hasn't started
+      ) : !quizSettings && !isQuizFinished ? (
         <>
           <QuizStart onStartQuiz={handleStartQuiz} />
           {/* Button to toggle history popup */}
@@ -179,7 +183,7 @@ function App() {
         questions.length > 0 && currentQuestionIndex < questions.length && (
           <div className="bg-white p-6 rounded-lg shadow-lg">
             <div className="text-center mb-4">
-              <p className="text-lg font-meduim text-red-600">Time Remaining: {timer} seconds</p>
+              <p className="text-lg font-medium text-red-600">Time Remaining: {timer} seconds</p>
             </div>
             <QuestionCard
               question={questions[currentQuestionIndex].question}
