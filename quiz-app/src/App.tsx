@@ -28,6 +28,8 @@ function App() {
   const [isQuizFinished, setIsQuizFinished] = useState(false);
   const [quizHistory, setQuizHistory] = useState<QuizHistoryItem[]>([]);
   const [showHistory, setShowHistory] = useState(false); // State for toggling quiz history popup
+  const [timer, setTimer] = useState<number>(10); // Countdown timer starting at 10 seconds
+  const [isTimerActive, setIsTimerActive] = useState<boolean>(false); // To track if timer is active
 
   // Load quiz history from local storage when the app loads
   useEffect(() => {
@@ -43,10 +45,31 @@ function App() {
       const { category, difficulty } = quizSettings;
       fetch(`https://opentdb.com/api.php?amount=10&category=${category}&difficulty=${difficulty}&type=multiple`)
         .then((res) => res.json())
-        .then((data) => setQuestions(data.results))
+        .then((data) => {
+          setQuestions(data.results);
+          setIsTimerActive(true); // Activate timer when questions are loaded
+          setTimer(10); // Reset timer for the new set of questions
+        })
         .catch((err) => console.error("Error fetching quiz data:", err));
     }
   }, [quizSettings]);
+
+  // Effect to handle timer countdown
+  useEffect(() => {
+    let timerId: NodeJS.Timeout;
+
+    if (isTimerActive && timer > 0) {
+      timerId = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    } else if (timer === 0) {
+      handleNextQuestion(); // Automatically move to the next question if time runs out
+    }
+
+    return () => {
+      clearInterval(timerId); // Cleanup the interval on unmount
+    };
+  }, [isTimerActive, timer]);
 
   const handleStartQuiz = (category: string, difficulty: string) => {
     setQuizSettings({ category, difficulty });
@@ -55,6 +78,8 @@ function App() {
     setSelectedAnswer(null);
     setIsAnswered(false);
     setIsQuizFinished(false);
+    setTimer(10); // Reset timer for the new quiz
+    setIsTimerActive(true); // Activate timer
   };
 
   const handleAnswer = (selectedAnswer: string) => {
@@ -75,6 +100,7 @@ function App() {
     setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
     setSelectedAnswer(null);
     setIsAnswered(false);
+    setTimer(10); // Reset timer for the next question
   };
 
   const saveQuizResult = () => {
@@ -157,6 +183,9 @@ function App() {
               isAnswered={isAnswered}
               onNextQuestion={handleNextQuestion}
             />
+            <div className="text-center mt-4">
+              <p className="text-lg font-normal text-red-600">Time remaining: {timer} seconds</p>
+            </div>
           </div>
         )
       )}
