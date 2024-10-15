@@ -1,25 +1,15 @@
 import React from 'react';
 
-interface QuestionCardProps {
-  question: string;
-  options: string[];
-  correctAnswer: string;
-  selectedAnswer: string | null;
-  isAnswered: boolean;
-  onAnswer: (answer: string) => void;
-  onNextQuestion: () => void; // Add the onNextQuestion function as a prop
-}
-
-const QuestionCard: React.FC<QuestionCardProps> = ({
+const QuestionCard = ({
   question,
   options,
   correctAnswer,
   selectedAnswer,
   isAnswered,
   onAnswer,
-  onNextQuestion, // Destructure the onNextQuestion prop
+  onNextQuestion,
 }) => {
-  const handleAnswerClick = (answer: string) => {
+  const handleAnswerClick = (answer) => {
     if (!isAnswered) {
       onAnswer(answer);
     }
@@ -27,7 +17,10 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
 
   return (
     <div>
-      <h2 className="text-xl font-bold mb-4 text-black" dangerouslySetInnerHTML={{ __html: question }} />
+      <h2
+        className="text-xl font-bold mb-4 text-black"
+        dangerouslySetInnerHTML={{ __html: question }}
+      />
 
       <div className="space-y-3">
         {options.map((option, index) => (

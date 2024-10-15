@@ -1,20 +1,8 @@
 import React from "react";
 
-interface QuizHistoryItem {
-  category: string;
-  difficulty: string;
-  score: number;
-  totalQuestions: number;
-  date: string;
-}
-
-interface QuizHistoryProps {
-  history: QuizHistoryItem[];
-}
-
 // Function to map category number to category name
-const getCategoryName = (category: string): string => {
-  const categoryMap: { [key: string]: string } = {
+const getCategoryName = (category) => {
+  const categoryMap = {
     "9": "General Knowledge",
     "21": "Sports",
     "23": "History",
@@ -30,7 +18,7 @@ const getCategoryName = (category: string): string => {
   return categoryMap[category] || "Unknown Category"; // Default to "Unknown Category" if not found
 };
 
-const QuizHistory: React.FC<QuizHistoryProps> = ({ history }) => {
+const QuizHistory = ({ history }) => {
   return (
     <div className="w-full">
       <h2 className="text-lg font-semibold text-center mb-4">Quiz History</h2>

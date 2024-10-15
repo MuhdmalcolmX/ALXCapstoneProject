@@ -1,19 +1,7 @@
 import React, { useState } from "react";
 import QuizHistory from "./QuizHistory"; // Import the QuizHistory component
 
-interface QuizStartProps {
-  onStartQuiz: (category: string, difficulty: string) => void;
-  quizHistory: Array<{
-    category: string;
-    difficulty: string;
-    score: number;
-    totalQuestions: number;
-    date: string;
-  }>;
-  onClearHistory: () => void;
-}
-
-const QuizStart: React.FC<QuizStartProps> = ({ onStartQuiz, quizHistory, onClearHistory }) => {
+const QuizStart = ({ onStartQuiz, quizHistory, onClearHistory }) => {
   const [category, setCategory] = useState("");
   const [difficulty, setDifficulty] = useState("");
   const [showHistory, setShowHistory] = useState(false); // State for toggling quiz history popup

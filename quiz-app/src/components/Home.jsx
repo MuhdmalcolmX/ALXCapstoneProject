@@ -1,10 +1,6 @@
 import React from "react";
 
-interface HomeProps {
-  onStart: () => void;
-}
-
-const Home: React.FC<HomeProps> = ({ onStart }) => {
+const Home = ({ onStart }) => {
   return (
     <div className="min-h-screen via-purple-300 to-indigo-400 flex flex-col items-center justify-center text-center">
       <h1 className="text-4xl font-bold text-white mb-4">Welcome to the Quiz App!</h1>

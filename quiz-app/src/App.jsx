@@ -4,30 +4,15 @@ import QuestionCard from "./components/QuestionCard";
 import QuizHistory from "./components/QuizHistory";
 import Home from "./components/Home"; // Import the Home component
 
-// TypeScript interfaces for quiz data and history
-interface QuizQuestion {
-  question: string;
-  correct_answer: string;
-  incorrect_answers: string[];
-}
-
-interface QuizHistoryItem {
-  category: string;
-  difficulty: string;
-  score: number;
-  totalQuestions: number;
-  date: string;
-}
-
 function App() {
-  const [quizSettings, setQuizSettings] = useState<{ category: string; difficulty: string } | null>(null);
-  const [questions, setQuestions] = useState<QuizQuestion[]>([]);
+  const [quizSettings, setQuizSettings] = useState(null);
+  const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [score, setScore] = useState(0);
-  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
+  const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [isAnswered, setIsAnswered] = useState(false);
   const [isQuizFinished, setIsQuizFinished] = useState(false);
-  const [quizHistory, setQuizHistory] = useState<QuizHistoryItem[]>([]);
+  const [quizHistory, setQuizHistory] = useState([]);
   const [showHistory, setShowHistory] = useState(false); // State for toggling quiz history popup
   const [timer, setTimer] = useState(10); // Timer for each question
   const [hasStarted, setHasStarted] = useState(false); // Track whether the quiz has started
@@ -49,7 +34,7 @@ function App() {
         .then((data) => {
           console.log(data); // Log the data to check what is returned
           setQuestions(data.results);
-    })
+        })
         .catch((err) => console.error("Error fetching quiz data:", err));
     }
   }, [quizSettings]);
@@ -66,7 +51,7 @@ function App() {
     }
   }, [timer, hasStarted, questions.length, isQuizFinished]);
 
-  const handleStartQuiz = (category: string, difficulty: string) => {
+  const handleStartQuiz = (category, difficulty) => {
     setQuizSettings({ category, difficulty });
     setCurrentQuestionIndex(0);
     setScore(0);
@@ -76,7 +61,7 @@ function App() {
     setTimer(10); // Reset timer for each new quiz
   };
 
-  const handleAnswer = (selectedAnswer: string) => {
+  const handleAnswer = (selectedAnswer) => {
     setSelectedAnswer(selectedAnswer);
     setIsAnswered(true);
     const currentQuestion = questions[currentQuestionIndex];
@@ -98,9 +83,9 @@ function App() {
   };
 
   const saveQuizResult = () => {
-    const newHistoryItem: QuizHistoryItem = {
-      category: quizSettings!.category,
-      difficulty: quizSettings!.difficulty,
+    const newHistoryItem = {
+      category: quizSettings.category,
+      difficulty: quizSettings.difficulty,
       score,
       totalQuestions: questions.length,
       date: new Date().toLocaleString(),
@@ -112,13 +97,13 @@ function App() {
   };
 
   // Calculate average score and best score
-  const calculateAverageScore = (): number => {
+  const calculateAverageScore = () => {
     if (quizHistory.length === 0) return 0;
     const totalScore = quizHistory.reduce((sum, item) => sum + item.score, 0);
     return totalScore / quizHistory.length;
   };
 
-  const getBestScore = (): number => {
+  const getBestScore = () => {
     if (quizHistory.length === 0) return 0;
     return Math.max(...quizHistory.map(item => item.score));
   };
@@ -139,7 +124,7 @@ function App() {
             onStartQuiz={handleStartQuiz}
             quizHistory={quizHistory} // Pass quiz history from state
             onClearHistory={handleClearHistory} // Pass clear history function
-            />
+          />
           {/* History Popup */}
           {showHistory && (
             <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
