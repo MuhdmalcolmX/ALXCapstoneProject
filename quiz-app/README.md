@@ -22,5 +22,19 @@ The goal of this project was to develop a fully functional Quiz App that allows 
 5. Responsive Design: The app adapts smoothly to different screen sizes, ensuring usability across mobile and desktop devices.
 6. User Feedback: Immediate visual cues are provided for correct and incorrect answers.
 
+## Tech Stack
+
+1. Frontend: HTML, CSS, JavaScript, React, and Tailwind CSS.
+2. API Integration: Open Trivia Database API for fetching questions.
+3. Styling: Tailwind CSS for streamlined, responsive design.
+3. State Management: React will be used for handling the app’s state, including the quiz flow, timer, and user inputs.
+5. Deployment: The app will be deployed on Vercel, which allows for easy continuous deployment from GitHub. https://alx-capstone-project-qfkiu5rn4-mohammed-syllas-projects.vercel.app/
+
+
+## Contact Information
+
+For any inquiries or feedback, please reach out via:
+
+[Email:] (muhdmalcolmx@gmail.com) [GitHub:] (https://github.com/MuhdmalcolmX/)
 
 
