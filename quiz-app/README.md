@@ -2,7 +2,7 @@
 
 The goal of this project was to develop a fully functional Quiz App that allows users to select trivia categories, answer questions, track their scores, and view their results. This project involved integrating the Open Trivia Database API to fetch dynamic questions, implementing a timer, and providing visual feedback to enhance the user experience. The app was designed to be responsive, offering a smooth experience across devices, and deployed using Vercel.
 
-# Visual Representation
+## Visual Representation
 
 ![Homepage](https://github.com/user-attachments/assets/1988ca2d-eec3-4b67-920e-5aa9265ed662)
 
@@ -13,8 +13,14 @@ The goal of this project was to develop a fully functional Quiz App that allows 
 ![Quiz Completed](https://github.com/user-attachments/assets/b652e058-aa34-4ac1-9642-3a56b843f3b1)
 
 
-## Features
+## Key Features
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+1. Category Selection: Users can choose from a variety of trivia categories, ensuring a personalized quiz experience.
+2. Timer Functionality: A countdown timer for each question to increase the challenge and urgency of the quiz.
+3. Dynamic Question Generation: Trivia questions are fetched in real-time from the Open Trivia Database API, providing new questions with every quiz session.
+4. Score Tracking and Display: User scores are calculated and displayed at the end of the quiz.
+5. Responsive Design: The app adapts smoothly to different screen sizes, ensuring usability across mobile and desktop devices.
+6. User Feedback: Immediate visual cues are provided for correct and incorrect answers.
+
 
 
