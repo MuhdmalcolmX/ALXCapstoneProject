@@ -123,6 +123,48 @@ function App() {
     setQuizHistory([]);
   };
 
+    // Object that maps category IDs to category names
+    const categoryMapping = {
+      "9": "General Knowledge",
+      "21": "Sports",
+      "23": "History",
+      "27": "Animals",
+      "17": "Science & Nature",
+      "22": "Geography",
+      "18": "Science: Computers",
+      "28": "Vehicles",
+      "10": "Books",
+      "24": "Politics",
+      "11": "Film",
+      "12": "Music",
+      "26": "Celebrities",
+      "14": "Television",
+      "15": "Video Games",
+      "31": "Japanese Anime & Manga",
+      "32": "Cartoon & Animations",
+      // Additional categories can be added here as needed
+    };
+
+  // Sharing the score on Twitter
+  const handleShareTwitter = () => {
+    const categoryName = categoryMapping[quizSettings.category] ; // Get the category name
+    const shareText = `I just scored ${score}/${questions.length} in the ${categoryName} category on the Quiz App! Can you beat my score?`;
+    const shareUrl = "https://alx-capstone-project-ea26dvafa-mohammed-syllas-projects.vercel.app"; // Quiz App URL on Vercel
+    const twitterShareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
+
+    window.open(twitterShareUrl, "_blank");
+  };
+  
+  // Sharing the score on WhatsApp
+  const handleShareWhatsApp = () => {
+    const categoryName = categoryMapping[quizSettings.category] ; // Get the category name
+    const shareText = `I scored ${score}/${questions.length} in the ${categoryName} category on the Quiz App! Can you beat it?`;
+    const shareUrl = "https://alx-capstone-project-ea26dvafa-mohammed-syllas-projects.vercel.app"; // Quiz App URL on Vercel
+    const whatsappShareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}%20${encodeURIComponent(shareUrl)}`;
+
+    window.open(whatsappShareUrl, "_blank");
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-black to-teal-6000 flex flex-col items-center justify-center">
       {!hasStarted ? (
@@ -169,12 +211,31 @@ function App() {
           <p className="text-lg text-gray-600">
             Best Score: <span className="font-bold text-indigo-600">{getBestScore()}</span>
           </p>
+
           <button
-            className="mt-6 bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition-colors"
+            className="mt-6 bg-black text-white py-2 px-4 rounded-lg hover:bg-gray-800 transition-colors"
             onClick={() => window.location.reload()}
           >
             Retake Quiz
           </button>
+
+          {/* Share Buttons */}
+          <div className="mt-10">
+            <button
+              className="bg-blue-500 text-white py-2 px-4 rounded-lg mr-4 hover:bg-blue-600"
+              onClick={handleShareTwitter}
+            >
+              Share on Twitter
+            </button>
+            <button
+              className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600"
+              onClick={handleShareWhatsApp}
+            >
+              Share on WhatsApp
+            </button>
+          </div>
+
+
         </div>
       ) : (
         questions.length > 0 && currentQuestionIndex < questions.length && (
