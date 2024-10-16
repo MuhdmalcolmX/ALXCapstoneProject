@@ -1,50 +1,20 @@
-# React + JavaScript + Vite
+# Mohammed Quiz App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The goal of this project was to develop a fully functional Quiz App that allows users to select trivia categories, answer questions, track their scores, and view their results. This project involved integrating the Open Trivia Database API to fetch dynamic questions, implementing a timer, and providing visual feedback to enhance the user experience. The app was designed to be responsive, offering a smooth experience across devices, and deployed using Vercel.
 
-Currently, two official plugins are available:
+# Visual Representation
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![Homepage](https://github.com/user-attachments/assets/1988ca2d-eec3-4b67-920e-5aa9265ed662)
 
-## Expanding the ESLint configuration
+![Start Quiz Page](https://github.com/user-attachments/assets/781af384-7fc2-48cd-9b97-1326ba9de10b)
+
+![Quiz Card](https://github.com/user-attachments/assets/eb656668-df83-42c9-a20d-b7b25e8b809c)
+
+![Quiz Completed](https://github.com/user-attachments/assets/b652e058-aa34-4ac1-9642-3a56b843f3b1)
+
+
+## Features
 
 If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
-- Configure the top-level `parserOptions` property like this:
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
