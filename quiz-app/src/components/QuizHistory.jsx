@@ -13,6 +13,13 @@ const getCategoryName = (category) => {
     "28": "Vehicles",
     "10": "Books",
     "24": "Politics",
+    "11": "Film",
+    "12": "Music",
+    "26": "Celebrities",
+    "14": "Television",
+    "15": "Video Games",
+    "31": "Japanese Anime & Manga",
+    "32": "Cartoon & Animations",
     // Add other categories as needed
   };
   return categoryMap[category] || "Unknown Category"; // Default to "Unknown Category" if not found

@@ -115,7 +115,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-200 via-purple-300 to-indigo-400 flex flex-col items-center justify-center">
+    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-black to-teal-6000 flex flex-col items-center justify-center">
       {!hasStarted ? (
         <Home onStart={() => setHasStarted(true)} /> // Render the Home component if the quiz hasn't started
       ) : !quizSettings && !isQuizFinished ? (

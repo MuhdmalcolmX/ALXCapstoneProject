@@ -6,6 +6,7 @@ const QuizStart = ({ onStartQuiz, quizHistory, onClearHistory }) => {
   const [difficulty, setDifficulty] = useState("");
   const [showHistory, setShowHistory] = useState(false); // State for toggling quiz history popup
   const [searchQuery, setSearchQuery] = useState(""); // Search query state
+  const [showPopup, setShowPopup] = useState(false); // State for showing the "select category and difficulty" popup
 
   // List of quiz categories
   const categories = [
@@ -18,7 +19,14 @@ const QuizStart = ({ onStartQuiz, quizHistory, onClearHistory }) => {
     { id: "18", name: "Science: Computers" },
     { id: "28", name: "Vehicles" },
     { id: "10", name: "Books" },
-    { id: "24", name: "Politics" }
+    { id: "24", name: "Politics" },
+    { id: "11", name: "Film" },
+    { id: "12", name: "Music" },
+    { id: "26", name: "Celebrities" },
+    { id: "14", name: "Television" },
+    { id: "15", name: "Video Games" },
+    { id: "31", name: "Japanese Anime & Manga" },
+    { id: "32", name: "Cartoon & Animations" }
   ];
 
   // Filter the categories based on search query
@@ -30,14 +38,14 @@ const QuizStart = ({ onStartQuiz, quizHistory, onClearHistory }) => {
     if (category && difficulty) {
       onStartQuiz(category, difficulty);
     } else {
-      alert("Please select both category and difficulty!");
+      setShowPopup(true); // Show popup when category or difficulty is not selected
     }
   };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen px-4">
       <div className="bg-white p-12 rounded-lg shadow-md w-full max-w-md">
-        <h1 className="text-3xl font-bold mb-8 text-center text-black">Start Quiz</h1>
+        <h1 className="text-3xl font-bold mb-8 text-center text-black">Mohammed Quiz App</h1>
 
         {/* Category Selection */}
         <div className="mb-4">
@@ -54,7 +62,7 @@ const QuizStart = ({ onStartQuiz, quizHistory, onClearHistory }) => {
           </div>
           
           {/* Category List with Scroll */}
-          <div className="flex flex-col space-y-2 text-black overflow-y-auto rounded-lg" style={{ maxHeight: "150px", scrollBehavior: "smooth" }}>
+          <div className="flex flex-col space-y-2 overflow-y-auto rounded-lg text-white custom-scrollbar" style={{ maxHeight: "150px" }}>
             {filteredCategories.length > 0 ? (
               filteredCategories.map((cat) => (
                 <button
@@ -71,24 +79,6 @@ const QuizStart = ({ onStartQuiz, quizHistory, onClearHistory }) => {
               <p className="text-gray-500">No categories match your search</p>
             )}
           </div>
-
-          {/* Scrollbar Customization */}
-          <style jsx>{`
-            ::-webkit-scrollbar {
-              width: 8px;
-            }
-            ::-webkit-scrollbar-track {
-              background: #f1f1f1;
-              border-radius: 10px;
-            }
-            ::-webkit-scrollbar-thumb {
-              background: #888;
-              border-radius: 10px;
-            }
-            ::-webkit-scrollbar-thumb:hover {
-              background: #555;
-            }
-          `}</style>
         </div>
 
         {/* Difficulty Selection */}
@@ -140,6 +130,22 @@ const QuizStart = ({ onStartQuiz, quizHistory, onClearHistory }) => {
               className="mt-4 bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 w-full"
             >
               Clear History
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Popup for Missing Category and Difficulty */}
+      {showPopup && (
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 sm:w-8/12 md:w-4/12 text-black">
+            <h2 className="text-2xl font-bold mb-4">Alert</h2>
+            <p className="mb-6">Please select both category and difficulty!</p>
+            <button
+              onClick={() => setShowPopup(false)}
+              className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
+            >
+              Okay
             </button>
           </div>
         </div>
