@@ -1,3 +1,5 @@
+// App.js
+
 import React, { useState, useEffect } from "react";
 import QuizStart from "./components/QuizStart";
 import QuestionCard from "./components/QuestionCard";
@@ -5,14 +7,14 @@ import QuizHistory from "./components/QuizHistory";
 import Home from "./components/Home"; // Import the Home component
 
 function App() {
-  const [quizSettings, setQuizSettings] = useState(null);
-  const [questions, setQuestions] = useState([]);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [score, setScore] = useState(0);
-  const [selectedAnswer, setSelectedAnswer] = useState(null);
-  const [isAnswered, setIsAnswered] = useState(false);
-  const [isQuizFinished, setIsQuizFinished] = useState(false);
-  const [quizHistory, setQuizHistory] = useState([]);
+  const [quizSettings, setQuizSettings] = useState(null); // Holds quiz settings
+  const [questions, setQuestions] = useState([]); // Holds fetched questions
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0); // Index of the current question
+  const [score, setScore] = useState(0); // User's score
+  const [selectedAnswer, setSelectedAnswer] = useState(null); // User's selected answer
+  const [isAnswered, setIsAnswered] = useState(false); // Whether the current question is answered
+  const [isQuizFinished, setIsQuizFinished] = useState(false); // Whether the quiz is finished
+  const [quizHistory, setQuizHistory] = useState([]); // Holds quiz history
   const [showHistory, setShowHistory] = useState(false); // State for toggling quiz history popup
   const [timer, setTimer] = useState(10); // Timer for each question
   const [hasStarted, setHasStarted] = useState(false); // Track whether the quiz has started
@@ -29,7 +31,9 @@ function App() {
   useEffect(() => {
     if (quizSettings) {
       const { category, difficulty } = quizSettings;
-      fetch(`https://opentdb.com/api.php?amount=10&category=${category}&difficulty=${difficulty}&type=multiple`)
+      fetch(
+        `https://opentdb.com/api.php?amount=10&category=${category}&difficulty=${difficulty}&type=multiple`
+      )
         .then((res) => res.json())
         .then((data) => {
           console.log(data); // Log the data to check what is returned
@@ -51,6 +55,7 @@ function App() {
     }
   }, [timer, hasStarted, questions.length, isQuizFinished]);
 
+  // Function to start the quiz with chosen settings
   const handleStartQuiz = (category, difficulty) => {
     setQuizSettings({ category, difficulty });
     setCurrentQuestionIndex(0);
@@ -61,6 +66,7 @@ function App() {
     setTimer(10); // Reset timer for each new quiz
   };
 
+  // Handle user's answer selection
   const handleAnswer = (selectedAnswer) => {
     setSelectedAnswer(selectedAnswer);
     setIsAnswered(true);
@@ -70,6 +76,7 @@ function App() {
     }
   };
 
+  // Handle next question or finish the quiz
   const handleNextQuestion = () => {
     if (currentQuestionIndex + 1 >= questions.length) {
       setIsQuizFinished(true);
@@ -82,6 +89,7 @@ function App() {
     setTimer(10); // Reset timer for the next question
   };
 
+  // Save the quiz result to local storage and state
   const saveQuizResult = () => {
     const newHistoryItem = {
       category: quizSettings.category,
@@ -96,16 +104,17 @@ function App() {
     localStorage.setItem("quizHistory", JSON.stringify(updatedHistory));
   };
 
-  // Calculate average score and best score
+  // Calculate average score based on quiz history
   const calculateAverageScore = () => {
     if (quizHistory.length === 0) return 0;
     const totalScore = quizHistory.reduce((sum, item) => sum + item.score, 0);
     return totalScore / quizHistory.length;
   };
 
+  // Get the best score from quiz history
   const getBestScore = () => {
     if (quizHistory.length === 0) return 0;
-    return Math.max(...quizHistory.map(item => item.score));
+    return Math.max(...quizHistory.map((item) => item.score));
   };
 
   // Handle clearing the quiz history
@@ -175,7 +184,10 @@ function App() {
             </div>
             <QuestionCard
               question={questions[currentQuestionIndex].question}
-              options={[...questions[currentQuestionIndex].incorrect_answers, questions[currentQuestionIndex].correct_answer].sort()}
+              options={[
+                ...questions[currentQuestionIndex].incorrect_answers,
+                questions[currentQuestionIndex].correct_answer,
+              ].sort()}
               correctAnswer={questions[currentQuestionIndex].correct_answer}
               onAnswer={handleAnswer}
               selectedAnswer={selectedAnswer}

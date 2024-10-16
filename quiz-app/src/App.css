@@ -1,94 +1,92 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
+@tailwind base;  /* Import Tailwind's base styles */
+@tailwind components;  /* Import Tailwind's component styles */
+@tailwind utilities;  /* Import Tailwind's utility classes */
 
 :root {
-  text-align: center;
+  text-align: center;  /* Center text alignment for the root element */
   
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  /* Default font settings */
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif; 
+  line-height: 1.5;  /* Set line height for better readability */
+  font-weight: 400;  /* Normal font weight */
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  /* Color scheme settings */
+  color-scheme: light dark;  /* Allow for light and dark mode */
+  color: rgba(255, 255, 255, 0.87);  /* Default text color */
+  background-color: #242424;  /* Dark background color */
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* Font rendering settings */
+  font-synthesis: none;  /* Disable font synthesis */
+  text-rendering: optimizeLegibility;  /* Optimize text rendering for legibility */
+  -webkit-font-smoothing: antialiased;  /* Smooth font edges on WebKit browsers */
+  -moz-osx-font-smoothing: grayscale;  /* Smooth font edges on Firefox for macOS */
 }
 
 a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+  font-weight: 500;  /* Set link font weight */
+  color: white;  /* Default link color */
+  text-decoration: inherit;  /* Inherit text decoration from parent */
 }
 a:hover {
-  color: #535bf2;
+  color: #b5aaaa;  /* Change link color on hover */
 }
 
 body {
-  margin: 0;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  margin: 0;  /* Remove default body margin */
+  place-items: center;  /* Center items in the container (requires a grid layout) */
+  min-width: 320px;  /* Minimum width for responsive design */
+  min-height: 100vh;  /* Minimum height to cover the full viewport */
 }
 
 h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+  font-size: 3.2em;  /* Set size for h1 elements */
+  line-height: 1.1;  /* Set line height for h1 elements */
 }
 
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
+  border-radius: 8px;  /* Rounded corners for buttons */
+  border: 1px solid transparent;  /* Default border style */
+  padding: 0.6em 1.2em;  /* Padding inside buttons */
+  font-size: 1em;  /* Default font size */
+  font-weight: 500;  /* Font weight for buttons */
+  font-family: inherit;  /* Inherit font family from parent */
+  background-color: #1a1a1a;  /* Default button background color */
+  cursor: pointer;  /* Change cursor to pointer on hover */
+  transition: border-color 0.25s;  /* Smooth transition for border color */
 }
 button:hover {
-  border-color: #646cff;
+  border-color: #646cff;  /* Change border color on button hover */
 }
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: 4px auto -webkit-focus-ring-color;  /* Focus outline for accessibility */
 }
 
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    color: #213547;  /* Text color for light mode */
+    background-color: #ffffff;  /* Background color for light mode */
   }
   a:hover {
-    color: #747bff;
+    color: #747bff;  /* Change link color on hover in light mode */
   }
   button {
-    background-color: #f9f9f9;
+    background-color: #f9f9f9;  /* Button background color for light mode */
   }
 }
 
-/* Category scroll */
+/* Scrollbar styles */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 6px;  /* Set width for webkit scrollbars */
 }
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 10px;
+  background: #f1f1f1;  /* Background for scrollbar track */
+  border-radius: 10px;  /* Rounded corners for scrollbar track */
 }
 ::-webkit-scrollbar-thumb {
-  background: #999;
-  border-radius: 10px;
+  background: #999;  /* Default color for scrollbar thumb */
+  border-radius: 10px;  /* Rounded corners for scrollbar thumb */
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-.custom-scrollbar {
-  scrollbar-width: thin; /* For Firefox */
-  scrollbar-color: #999 #f1f1f1;
+  background: #555;  /* Change color on hover for scrollbar thumb */
 }
