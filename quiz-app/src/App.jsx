@@ -149,7 +149,7 @@ function App() {
   const handleShareTwitter = () => {
     const categoryName = categoryMapping[quizSettings.category] ; // Get the category name
     const shareText = `I just scored ${score}/${questions.length} in the ${categoryName} category on the Quiz App! Can you beat my score?`;
-    const shareUrl = "https://vercel.live/link/alx-capstone-project-git-main-mohammed-syllas-projects.vercel.app?via=deployment-domains-list&p=1 p"; // Quiz App URL on Vercel
+    const shareUrl = "https://alx-capstone-project-zeta.vercel.app/"; // Quiz App URL on Vercel
     const twitterShareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
 
     window.open(twitterShareUrl, "_blank");
@@ -159,7 +159,7 @@ function App() {
   const handleShareWhatsApp = () => {
     const categoryName = categoryMapping[quizSettings.category] ; // Get the category name
     const shareText = `I scored ${score}/${questions.length} in the ${categoryName} category on the Quiz App! Can you beat it?`;
-    const shareUrl = "https://vercel.live/link/alx-capstone-project-git-main-mohammed-syllas-projects.vercel.app?via=deployment-domains-list&p=1 "; // Quiz App URL on Vercel
+    const shareUrl = "https://alx-capstone-project-zeta.vercel.app/ "; // Quiz App URL on Vercel
     const whatsappShareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}%20${encodeURIComponent(shareUrl)}`;
 
     window.open(whatsappShareUrl, "_blank");
