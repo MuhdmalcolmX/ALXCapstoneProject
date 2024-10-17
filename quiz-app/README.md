@@ -28,7 +28,7 @@ The goal of this project was to develop a fully functional Quiz App that allows 
 2. API Integration: Open Trivia Database API for fetching questions.
 3. Styling: Tailwind CSS for streamlined, responsive design.
 3. State Management: React will be used for handling the app’s state, including the quiz flow, timer, and user inputs.
-5. Deployment: The app will be deployed on Vercel, which allows for easy continuous deployment from GitHub. https://alx-capstone-project-qfkiu5rn4-mohammed-syllas-projects.vercel.app/
+5. Deployment: The app will be deployed on Vercel, which allows for easy continuous deployment from GitHub. [Link to test](https://alx-capstone-project-zeta.vercel.app/)
 
 
 ## Contact Information
